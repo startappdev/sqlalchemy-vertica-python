@@ -7,6 +7,9 @@ setup(
     long_description=open("README.rst").read(),
     license="MIT",
     url='https://github.com/LocusEnergy/vertica-sqlalchemy',
+    packages=[
+        'sqlalchemy_vertica',
+    ],
     entry_points="""
     [sqlalchemy.dialects]
     vertica.vertica_python = sqlalchemy_vertica.base:VerticaDialect
