@@ -1,25 +1,18 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
-    name='vertica-sqlalchemy',
-    version='0.13',
-    description='Vertica dialect for sqlalchemy',
+    name='sqlalchemy-vertica-python',
+    version='0.0.0',
+    description='Vertica dialect for sqlalchemy using vertica_python',
     long_description=open("README.rst").read(),
-    author='James Casbon',
-    author_email='casbon@gmail.com',
     license="MIT",
-    url='https://github.com/jamescasbon/vertica-sqlalchemy',
-    packages=find_packages(exclude=["tests.*", "tests"]),
-    classifiers=[
-        "Development Status :: 3 - Alpha",
-        "Intended Audience :: Developers",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: OS Independent",
-        "Programming Language :: Python",
-    ],
+    url='https://github.com/LocusEnergy/vertica-sqlalchemy',
     entry_points="""
     [sqlalchemy.dialects]
-    vertica.pyodbc = sqlalchemy_vertica.base:VerticaDialect
-    """
+    vertica.vertica_python = sqlalchemy_vertica.base:VerticaDialect
+    """,
+    install_requires=[
+        'vertica_python'
+    ],
 )
 
