@@ -3,7 +3,7 @@ sqlalchemy-vertica-python
 
 Vertica dialect for sqlalchemy.
 
-This module implements a Vertica dialect for SQLAlchemy using [vertica-python](https://github.com/uber/vertica-python). Engine creation: 
+This module implements a Vertica dialect for SQLAlchemy using `vertica-python <https://github.com/uber/vertica-python>`. Engine creation: 
 
 .. code-block:: python
 
