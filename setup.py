@@ -8,11 +8,11 @@ setup(
     license="MIT",
     url='https://github.com/LocusEnergy/vertica-sqlalchemy',
     packages=[
-        'sqlalchemy_vertica',
+        'sqla_vertica_python',
     ],
     entry_points="""
     [sqlalchemy.dialects]
-    vertica.vertica_python = sqlalchemy_vertica.base:VerticaDialect
+    vertica.vertica_python = sqla_vertica_python.base:VerticaDialect
     """,
     install_requires=[
         'vertica_python'
