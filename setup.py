@@ -7,6 +7,7 @@ setup(
     long_description=open("README.rst").read(),
     license="MIT",
     url='https://github.com/LocusEnergy/https://github.com/LocusEnergy/sqlalchemy-vertica-python',
+    download_url = 'https://github.com/LocusEnergy/sqlalchemy-vertica-python/0.0.0'
     packages=[
         'sqla_vertica_python',
     ],
