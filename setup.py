@@ -8,6 +8,8 @@ setup(
     license="MIT",
     url='https://github.com/LocusEnergy/https://github.com/LocusEnergy/sqlalchemy-vertica-python',
     download_url = 'https://github.com/LocusEnergy/sqlalchemy-vertica-python/0.0.0',
+    author='Locus Energy',
+    author_email='dev@locusenergy.com',
     packages=[
         'sqla_vertica_python',
     ],
