@@ -6,7 +6,7 @@ setup(
     description='Vertica dialect for sqlalchemy using vertica_python',
     long_description=open("README.rst").read(),
     license="MIT",
-    url='https://github.com/LocusEnergy/vertica-sqlalchemy',
+    url='https://github.com/LocusEnergy/https://github.com/LocusEnergy/sqlalchemy-vertica-python',
     packages=[
         'sqla_vertica_python',
     ],
