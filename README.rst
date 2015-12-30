@@ -22,7 +22,3 @@ From git: ::
      git clone https://github.com/LocusEnergy/vertica-sqlalchemy 
      cd vertica-sqlalchemy
      python setup.py install
-
-Known Issues
-------------
-- Error handling is subpar. In particular, sqlalchemy attempts to raise a dbapi.Error, which vertica_python does not have. This can likely be fixed in the future by overriding some of the Default Dialect methods.

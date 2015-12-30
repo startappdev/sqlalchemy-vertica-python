@@ -56,7 +56,13 @@ class VerticaDialect(PGDialect):
 
     @classmethod
     def dbapi(cls):
-        return __import__('vertica_python')
+        vp_module = __import__('vertica_python')
+
+        # sqlalchemy expects to find the base Error class here,
+        # so we need to alias it
+        vp_module.Error = vp_module.errors.Error
+
+        return vp_module
 
 
     def create_connect_args(self, url):
