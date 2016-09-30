@@ -192,6 +192,33 @@ class VerticaDialect(PGDialect):
             })
         return columns
 
+    @reflection.cache
+    def get_unique_constraints(self, connection, table_name, schema=None, **kw):
+
+        query = None
+        if schema is not None:
+            query = "select constraint_id, constraint_name, column_name from v_catalog.constraint_columns \n\
+            WHERE table_name = '" + table_name + "' AND table_schema = '" + schema + "'"
+        else:
+            query = "select constraint_id, constraint_name, column_name from v_catalog.constraint_columns \n\
+            WHERE table_name = '" + table_name + "'"
+
+        rs = connection.execute(query)
+
+        unique_names = {row[1] for row in rs}
+
+        result_dict = {unique: [] for unique in unique_names}
+        for row in rs:
+            result_dict[row[1]].append(row[2])
+
+        result = []
+        for key in result_dict.keys():
+            result.append(
+                {"name": key,
+                 "column_names": result_dict[key]}
+            )
+
+        return result
 
     # constraints are enforced on selects, but returning nothing for these
     # methods allows table introspection to work
