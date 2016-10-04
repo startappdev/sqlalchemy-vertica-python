@@ -7,7 +7,7 @@ setup(
     long_description=open("README.rst").read(),
     license="MIT",
     url='https://github.com/LocusEnergy/sqlalchemy-vertica-python',
-    download_url = 'https://github.com/LocusEnergy/sqlalchemy-vertica-python/tarball/0.1.2',
+    download_url = 'https://github.com/LocusEnergy/sqlalchemy-vertica-python/tarball/0.1.3',
     author='Locus Energy',
     author_email='dbio@locusenergy.com',
     packages=[
