@@ -1,5 +1,5 @@
-sqlalchemy-vertica-python
-=========================
+sqlalchemy-vertica
+==================
 
 Vertica dialect for sqlalchemy. Forked from the `Vertica ODBC dialect <https://pypi.python.org/pypi/vertica-sqlalchemy>`_.
 
@@ -15,10 +15,10 @@ Installation
 
 From PyPI: ::
 
-     pip install sqlalchemy-vertica-python
+     pip install sqlalchemy-vertica
 
 From git: ::
 
-     git clone https://github.com/LocusEnergy/vertica-sqlalchemy 
-     cd vertica-sqlalchemy
+     git clone https://github.com/startappdev/sqlalchemy-vertica
+     cd sqlalchemy-vertica
      python setup.py install

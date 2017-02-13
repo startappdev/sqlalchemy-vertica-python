@@ -1,0 +1,8 @@
+THIS PROJECT IS DERIVED FROM THE FOLLOWING PROJECTS/FORKS:
+  - https://github.com/LocusEnergy/sqlalchemy-vertica-python
+  - https://github.com/zzzeek/sqlalchemy
+  - https://github.com/bluelabsio/vertica-sqlalchemy
+  - https://github.com/dennisobrien/sqlalchemy-vertica-python
+  - https://github.com/Eighty20/sqlalchemy-vertica-python
+
+THANKS TO ALL THE GREAT PEOPLE WHO'VE CONTRIBUTED TO THESE PROJECTS.
