@@ -22,3 +22,4 @@ From git: ::
      git clone https://github.com/startappdev/sqlalchemy-vertica
      cd sqlalchemy-vertica
      python setup.py install
+

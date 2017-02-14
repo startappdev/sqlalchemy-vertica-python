@@ -62,7 +62,7 @@ class VerticaDDLCompiler(PGDDLCompiler):
         return colspec
 
 
-# noinspection PyArgumentList,PyArgumentList
+# noinspection PyArgumentList,PyAbstractClass
 class VerticaDialect(PGDialect):
     name = 'vertica'
     ischema_names = ischema_names
