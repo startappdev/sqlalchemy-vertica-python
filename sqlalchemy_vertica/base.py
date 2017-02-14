@@ -64,18 +64,9 @@ class VerticaDDLCompiler(PGDDLCompiler):
 
 # noinspection PyArgumentList,PyArgumentList
 class VerticaDialect(PGDialect):
-    """ Vertica Dialect using a vertica-python connection and PGDialect """
-
     name = 'vertica'
-    driver = 'vertica_python'
     ischema_names = ischema_names
     ddl_compiler = VerticaDDLCompiler
-
-    @classmethod
-    def dbapi(cls):
-        vp_module = __import__('vertica_python')
-        vp_module.Error = vp_module.errors.Error  # sqlalchemy expects to find here the base Error
-        return vp_module
 
     def _get_default_schema_name(self, connection):
         return connection.scalar("SELECT current_schema()")
