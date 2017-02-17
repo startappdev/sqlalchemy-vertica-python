@@ -3,7 +3,7 @@ from setuptools import setup
 with open("README.rst", "r") as f:
     description = f.read()
 
-version_info = (0, 2, 1)
+version_info = (0, 2, 2)
 version = '.'.join(map(str, version_info))
 
 setup(
@@ -22,14 +22,28 @@ setup(
     install_requires=(
         'six >= 1.10.0',
         'sqlalchemy >= 1.1.5',
-        'psycopg2 >= 2.6.2',
-        'pyodbc >= 3.0.10',
-        'vertica-python >= 0.6.13',
     ),
+    extras_require={
+        'pyodbc': [
+            'pyodbc >= 3.0.10',
+        ],
+        'turbodbc': [
+            'turbodbc >= 1.0.1',
+            'numpy >= 1.12.0',
+        ],
+        'vertica-python': [
+            'psycopg2 >= 2.6.2',
+            'vertica-python >= 0.6.13',
+        ],
+    },
     entry_points={
         'sqlalchemy.dialects': [
-            'vertica.pyodbc = sqlalchemy_vertica.odbc:VerticaDialect',
-            'vertica.vertica_python = sqlalchemy_vertica.vp:VerticaDialect'
+            'vertica.pyodbc = '
+            'sqlalchemy_vertica.dialect_pyodbc:VerticaDialect [pyodbc]',
+            'vertica.turbodbc = '
+            'sqlalchemy_vertica.dialect_turbodbc:VerticaDialect [turbodbc]',
+            'vertica.vertica_python = '
+            'sqlalchemy_vertica.dialect_vertica_python:VerticaDialect [vertica-python]'
         ]
     }
 )
