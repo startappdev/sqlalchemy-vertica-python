@@ -14,7 +14,7 @@ Forked from the `Vertica dialect for sqlalchemy using vertica-python <https://py
     sa.create_engine('vertica+pyodbc:///?odbc_connect=%s' % (urllib.quote('DSN=dsn'),))
 
     # for turbodbc connection
-    sa.create_engine('vertica+turbodbc:///?odbc_connect=%s' % (urllib.quote('DSN=dsn'),))
+    sa.create_engine('vertica+turbodbc:///?DSN=dsn')
 
     # for vertica-python connection
     sa.create_engine('vertica+vertica_python://user:pwd@host:port/database')

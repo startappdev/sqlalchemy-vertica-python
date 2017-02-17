@@ -1,9 +1,8 @@
-from sqlalchemy.connectors.pyodbc import PyODBCConnector
-
 from base import VerticaDialect as BaseVerticaDialect
 
 
-class TURBODBCConnector(PyODBCConnector):
+# noinspection PyAbstractClass
+class VerticaDialect(BaseVerticaDialect):
     driver = 'turbodbc'
 
     @classmethod
@@ -16,11 +15,3 @@ class TURBODBCConnector(PyODBCConnector):
                 setattr(turbodbc, error, turbodbc.DatabaseError)
 
         return turbodbc
-
-    def _dbapi_version(self):
-        return ()
-
-
-# noinspection PyAbstractClass
-class VerticaDialect(TURBODBCConnector, BaseVerticaDialect):
-    pass
