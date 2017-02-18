@@ -1,7 +1,8 @@
-from base import VerticaDialect as BaseVerticaDialect
+from __future__ import absolute_import
+from .base import VerticaDialect as BaseVerticaDialect
 
 
-# noinspection PyAbstractClass
+# noinspection PyAbstractClass, PyClassHasNoInit
 class VerticaDialect(BaseVerticaDialect):
     driver = 'turbodbc'
 
