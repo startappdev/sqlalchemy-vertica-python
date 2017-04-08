@@ -1,8 +1,10 @@
-import re
-from textwrap import dedent
+from __future__ import absolute_import, unicode_literals, print_function, division
 
+import re
 from sqlalchemy import exc
 from sqlalchemy import sql
+from textwrap import dedent
+
 from sqlalchemy.dialects.postgresql import BYTEA, DOUBLE_PRECISION
 from sqlalchemy.dialects.postgresql.base import PGDialect, PGDDLCompiler
 from sqlalchemy.engine import reflection
