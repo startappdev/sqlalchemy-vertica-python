@@ -21,39 +21,23 @@ setup(
     ),
     install_requires=(
         'six >= 1.10.0',
-        'sqlalchemy >= 2.4',
+        'sqlalchemy >= 1.1.11',
     ),
     extras_require={
         'pyodbc': [
-            'pyodbc >= 3.0',
-        ],
-        'turbodbc': [
-            'turbodbc >= 1.0',
-            'numpy >= 1.12',
+            'pyodbc>=4.0.16',
         ],
         'vertica-python': [
-            'psycopg2 >= 2.6',
-            'vertica-python >= 0.6.14',
+            'psycopg2>=2.7.1',
+            'vertica-python>=0.7.3',
         ],
-        'pypyodbc': [
-            'pypyodbc >= 1.3.4',
-        ],
-        'hpe-vertica': [
-            'hp-vertica-client >= 7',
-        ]
     },
     entry_points={
         'sqlalchemy.dialects': [
             'vertica.pyodbc = '
             'sqlalchemy_vertica.dialect_pyodbc:VerticaDialect [pyodbc]',
-            'vertica.turbodbc = '
-            'sqlalchemy_vertica.dialect_turbodbc:VerticaDialect [turbodbc]',
             'vertica.vertica_python = '
             'sqlalchemy_vertica.dialect_vertica_python:VerticaDialect [vertica-python]',
-            'vertica.pypyodbc = '
-            'sqlalchemy_vertica.dialect_pypyodbc:VerticaDialect [pypyodbc]',
-            'vertica.hpe_vertica = '
-            'sqlalchemy_vertica.dialect_hpe_vertica:VerticaDialect [hpe-vertica]',
         ]
     }
 )
