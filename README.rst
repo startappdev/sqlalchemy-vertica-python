@@ -19,6 +19,12 @@ Forked from the `Vertica dialect for sqlalchemy using vertica-python <https://py
     # for vertica-python connection
     sa.create_engine('vertica+vertica_python://user:pwd@host:port/database')
 
+    # for vertica-python connection with optional parameters
+    sa.create_engine('vertica+vertica_python://user:pwd@host:port/database',
+                     connect_args={"connection_timeout": 5})
+
+Reference `vertica-python <https://github.com/uber/vertica-python>`_ for additional optional connection parameters
+
 Installation
 ------------
 
