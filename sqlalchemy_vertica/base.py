@@ -9,7 +9,7 @@ from sqlalchemy.dialects.postgresql import BYTEA, DOUBLE_PRECISION
 from sqlalchemy.dialects.postgresql.base import PGDialect, PGDDLCompiler
 from sqlalchemy.engine import reflection
 from sqlalchemy.types import INTEGER, BIGINT, SMALLINT, VARCHAR, CHAR, \
-    NUMERIC, FLOAT, REAL, DATE, DATETIME, BOOLEAN, BLOB, TIMESTAMP, TIME
+    NUMERIC, FLOAT, REAL, DATE, DATETIME, BOOLEAN, BLOB, TIMESTAMP, TIME, TEXT
 
 ischema_names = {
     'INT': INTEGER,
@@ -21,6 +21,7 @@ ischema_names = {
     'CHAR': CHAR,
     'VARCHAR': VARCHAR,
     'VARCHAR2': VARCHAR,
+    'LONG VARCHAR': TEXT,
     'TEXT': VARCHAR,
     'NUMERIC': NUMERIC,
     'DECIMAL': NUMERIC,
@@ -39,6 +40,7 @@ ischema_names = {
     'SMALLDATETIME': DATETIME,
     'BINARY': BLOB,
     'VARBINARY': BLOB,
+    'LONG VARBINARY': BLOB,
     'RAW': BLOB,
     'BYTEA': BYTEA,
     'BOOLEAN': BOOLEAN,
