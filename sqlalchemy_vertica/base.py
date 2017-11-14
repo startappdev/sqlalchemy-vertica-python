@@ -43,6 +43,7 @@ ischema_names = {
     'RAW': BLOB,
     'BYTEA': BYTEA,
     'BOOLEAN': BOOLEAN,
+    'UUID' : VARCHAR
 }
 
 
