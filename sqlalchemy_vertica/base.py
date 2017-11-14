@@ -31,6 +31,7 @@ ischema_names = {
     'REAL': REAL,
     'DOUBLE': DOUBLE_PRECISION,
     'TIMESTAMP': TIMESTAMP,
+    'TIMESTAMPTZ': TIMESTAMP,
     'TIMESTAMP WITH TIMEZONE': TIMESTAMP,
     'TIME': TIME,
     'TIME WITH TIMEZONE': TIME,
@@ -42,6 +43,7 @@ ischema_names = {
     'RAW': BLOB,
     'BYTEA': BYTEA,
     'BOOLEAN': BOOLEAN,
+    'UUID' : VARCHAR
 }
 
 
