@@ -157,14 +157,18 @@ class VerticaDialect(PGDialect):
             schema = self._get_default_schema_name(connection)
 
         get_oid_sql = sql.text(dedent("""
-            SELECT table_id
-            FROM v_catalog.tables
-            WHERE lower(table_name) = '%(table)s'
-            AND lower(table_schema) = '%(schema)s'
+            SELECT A.table_id
+            FROM
+                (SELECT table_id, table_name, table_schema FROM v_catalog.tables
+                    UNION
+                 SELECT table_id, table_name, table_schema FROM v_catalog.views) AS A
+            WHERE lower(A.table_name) = '%(table)s'
+            AND lower(A.table_schema) = '%(schema)s'
         """ % {'schema': schema.lower(), 'table': table_name.lower()}))
 
         c = connection.execute(get_oid_sql)
         table_oid = c.scalar()
+
         if table_oid is None:
             raise exc.NoSuchTableError(table_name)
         return table_oid
