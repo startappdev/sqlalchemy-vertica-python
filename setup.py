@@ -3,7 +3,7 @@ from setuptools import setup
 with open("README.rst", "r") as f:
     description = f.read()
 
-version_info = (0, 2, 5)
+version_info = (0, 0, 1)
 version = '.'.join(map(str, version_info))
 
 setup(
@@ -12,10 +12,10 @@ setup(
     description='Vertica dialect for sqlalchemy',
     long_description=description,
     license='MIT',
-    url='https://github.com/startappdev/sqlalchemy-vertica',
-    download_url='https://github.com/startappdev/sqlalchemy-vertica/tarball/%s' % (version,),
-    author='StartApp Inc.',
-    author_email='ben.feinstein@startapp.com',
+    url='https://github.com/lv10/sqlalchemy-vertica',
+    download_url='https://github.com/lv10/sqlalchemy-vertica/tarball/%s' % (version,),
+    author='Luis Villamarin',
+    author_email='luis@lv10.me',
     packages=(
         'sqlalchemy_vertica',
     ),
