@@ -5,7 +5,7 @@ from sqlalchemy import exc
 from sqlalchemy import sql
 from textwrap import dedent
 
-from sqlalchemy.dialects.postgresql import BYTEA, DOUBLE_PRECISION
+from sqlalchemy.dialects.postgresql import BYTEA, DOUBLE_PRECISION, INTERVAL
 from sqlalchemy.dialects.postgresql.base import PGDialect, PGDDLCompiler
 from sqlalchemy.engine import reflection
 from sqlalchemy.types import INTEGER, BIGINT, SMALLINT, VARCHAR, CHAR, \
@@ -32,8 +32,11 @@ ischema_names = {
     'DOUBLE': DOUBLE_PRECISION,
     'TIMESTAMP': TIMESTAMP,
     'TIMESTAMP WITH TIMEZONE': TIMESTAMP,
+    'TIMESTAMPTZ': TIMESTAMP(timezone=True),
     'TIME': TIME,
     'TIME WITH TIMEZONE': TIME,
+    'TIMETZ': TIME(timezone=True),
+    'INTERVAL': INTERVAL,
     'DATE': DATE,
     'DATETIME': DATETIME,
     'SMALLDATETIME': DATETIME,
@@ -42,6 +45,8 @@ ischema_names = {
     'RAW': BLOB,
     'BYTEA': BYTEA,
     'BOOLEAN': BOOLEAN,
+    'LONG VARBINARY': BLOB,
+    'LONG VARCHAR': VARCHAR,
 }
 
 
@@ -150,6 +155,26 @@ class VerticaDialect(PGDialect):
 
         c = connection.execute(get_schemas_sql)
         return [row[0] for row in c if not row[0].startswith('v_')]
+
+    @reflection.cache
+    def get_table_comment(self, connection, table_name, schema=None, **kw):
+        if schema is None:
+            schema_conditional = ""
+        else:
+            schema_conditional = "AND object_schema = '{schema}'".format(schema=schema)
+        query = """
+            SELECT
+                comment
+            FROM
+                v_catalog.comments
+            WHERE
+                object_type = 'TABLE'
+                AND
+                object_name = :table_name
+                {schema_conditional}
+        """.format(schema_conditional=schema_conditional)
+        c = connection.execute(sql.text(query), table_name=table_name)
+        return {"text": c.scalar()}
 
     @reflection.cache
     def get_table_oid(self, connection, table_name, schema=None, **kw):
