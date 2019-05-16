@@ -47,6 +47,7 @@ ischema_names = {
     'BOOLEAN': BOOLEAN,
     'LONG VARBINARY': BLOB,
     'LONG VARCHAR': VARCHAR,
+    'GEOMETRY': BLOB,
 }
 
 
