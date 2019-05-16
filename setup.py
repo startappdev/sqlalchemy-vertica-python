@@ -3,7 +3,7 @@ from setuptools import setup
 with open("README.rst", "r") as f:
     description = f.read()
 
-version_info = (0, 0, 3)
+version_info = (0, 0, 4)
 version = '.'.join(map(str, version_info))
 
 setup(
@@ -28,7 +28,6 @@ setup(
             'pyodbc>=4.0.16',
         ],
         'vertica-python': [
-            'psycopg2>=2.7.1',
             'vertica-python>=0.7.3',
         ],
     },
