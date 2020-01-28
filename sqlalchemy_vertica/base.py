@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals, print_function, divisi
 import re
 from sqlalchemy import exc
 from sqlalchemy import sql
+from sqlalchemy import util
 from textwrap import dedent
 
 from sqlalchemy.dialects.postgresql import BYTEA, DOUBLE_PRECISION, INTERVAL
@@ -10,6 +11,7 @@ from sqlalchemy.dialects.postgresql.base import PGDialect, PGDDLCompiler
 from sqlalchemy.engine import reflection
 from sqlalchemy.types import INTEGER, BIGINT, SMALLINT, VARCHAR, CHAR, \
     NUMERIC, FLOAT, REAL, DATE, DATETIME, BOOLEAN, BLOB, TIMESTAMP, TIME
+from sqlalchemy.sql import sqltypes
 
 ischema_names = {
     'INT': INTEGER,
@@ -286,21 +288,20 @@ class VerticaDialect(PGDialect):
         columns = []
         for row in connection.execute(s):
             name = row.column_name
-            dtype = row.data_type.upper()
-            if '(' in dtype:
-                dtype = dtype.split('(')[0]
-            coltype = self.ischema_names[dtype]
+            dtype = row.data_type.lower()
             primary_key = name in pk_columns
             default = row.column_default
             nullable = row.is_nullable
 
-            columns.append({
-                'name': name,
-                'type': coltype,
-                'nullable': nullable,
-                'default': default,
-                'primary_key': primary_key
-            })
+            column_info = self._get_column_info(
+                name,
+                dtype,
+                default,
+                nullable,
+                schema,
+            )
+            column_info.update({'primary_key': primary_key})
+            columns.append(column_info)
         return columns
 
     @reflection.cache
@@ -371,3 +372,103 @@ class VerticaDialect(PGDialect):
     # noinspection PyUnusedLocal
     def visit_create_index(self, create):
         return None
+
+    def _get_column_info(
+        self,
+        name,
+        format_type,
+        default,
+        nullable,
+        schema,
+    ):
+
+        # strip (*) from character varying(5), timestamp(5)
+        # with time zone, geometry(POLYGON), etc.
+        attype = re.sub(r"\(.*\)", "", format_type)
+
+        charlen = re.search(r"\(([\d,]+)\)", format_type)
+        if charlen:
+            charlen = charlen.group(1)
+        args = re.search(r"\((.*)\)", format_type)
+        if args and args.group(1):
+            args = tuple(re.split(r"\s*,\s*", args.group(1)))
+        else:
+            args = ()
+        kwargs = {}
+
+        if attype == "numeric":
+            if charlen:
+                prec, scale = charlen.split(",")
+                args = (int(prec), int(scale))
+            else:
+                args = ()
+        elif attype == "integer":
+            args = ()
+        elif attype in ("timestamptz", "timetz"):
+            kwargs["timezone"] = True
+            if charlen:
+                kwargs["precision"] = int(charlen)
+            args = ()
+        elif attype in (
+            "timestamp",
+            "time",
+        ):
+            kwargs["timezone"] = False
+            if charlen:
+                kwargs["precision"] = int(charlen)
+            args = ()
+        elif attype.startswith("interval"):
+            field_match = re.match(r"interval (.+)", attype, re.I)
+            if charlen:
+                kwargs["precision"] = int(charlen)
+            if field_match:
+                kwargs["fields"] = field_match.group(1)
+            attype = "interval"
+            args = ()
+        elif charlen:
+            args = (int(charlen),)
+
+        while True:
+            if attype.upper() in self.ischema_names:
+                coltype = self.ischema_names[attype.upper()]
+                break
+            else:
+                coltype = None
+                break
+
+        if coltype:
+            coltype = coltype(*args, **kwargs)
+        else:
+            util.warn(
+                "Did not recognize type '%s' of column '%s'" % (attype, name)
+            )
+            coltype = sqltypes.NULLTYPE
+        # adjust the default value
+        autoincrement = False
+        if default is not None:
+            match = re.search(r"""(nextval\(')([^']+)('.*$)""", default)
+            if match is not None:
+                if issubclass(coltype._type_affinity, sqltypes.Integer):
+                    autoincrement = True
+                # the default is related to a Sequence
+                sch = schema
+                if "." not in match.group(2) and sch is not None:
+                    # unconditionally quote the schema name.  this could
+                    # later be enhanced to obey quoting rules /
+                    # "quote schema"
+                    default = (
+                        match.group(1)
+                        + ('"%s"' % sch)
+                        + "."
+                        + match.group(2)
+                        + match.group(3)
+                    )
+
+        column_info = dict(
+            name=name,
+            type=coltype,
+            nullable=nullable,
+            default=default,
+            autoincrement=autoincrement,
+        )
+        return column_info
